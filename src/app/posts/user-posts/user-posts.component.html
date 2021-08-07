@@ -1,0 +1,14 @@
+<div class="card col-md-12">
+  <div class="card-body">
+    <h1 style="text-align: center">Posts</h1>
+
+    <div class="row" style="text-align: left">
+      <div class="card col-md-12" *ngFor="let items of filteredPosts">
+        <h3>{{ items.title }}</h3>
+        <textarea [(disabled)]="edit">{{ items.body }}</textarea>
+        <a (click)="editPosts(items.body)">edit</a>
+        <a (click)="savePosts(items.body)">save</a>
+      </div>
+    </div>
+  </div>
+</div>

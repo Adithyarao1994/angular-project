@@ -1,0 +1,18 @@
+<div class="card col-md-12">
+  <div class="card-body">
+    <h1 style="text-align: center">Albums</h1>
+
+    <div class="row" style="text-align: left">
+      <div class="card col-md-12" *ngFor="let items of filteredAlbums">
+        <img
+          src="https://via.placeholder.com/150/92c952"
+          class="img-thumbnail"
+          alt="Cinque Terre"
+          height="5%"
+          width="5%"
+        />
+        <h3>{{ items.title }}</h3>
+      </div>
+    </div>
+  </div>
+</div>

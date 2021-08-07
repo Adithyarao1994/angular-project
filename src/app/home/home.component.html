@@ -1,0 +1,30 @@
+<div class="card col-md-12">
+  <div class="card-body">
+    <h1 style="text-align: center">Users</h1>
+
+    <div class="row" style="text-align: left">
+      <div class="card col-md-12" *ngFor="let items of users">
+        <h2>
+          <mat-nav-list>
+            <a mat-list-item>{{ items.username }}</a>
+            <button
+              (click)="filter(items.id)"
+              mat-raised-button
+              color="primary"
+            >
+              Posts
+            </button>
+            &nbsp;
+            <button
+              (click)="filterAlbum(items.id)"
+              mat-raised-button
+              color="primary"
+            >
+              Albums
+            </button>
+          </mat-nav-list>
+        </h2>
+      </div>
+    </div>
+  </div>
+</div>
