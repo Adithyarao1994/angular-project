@@ -1,6 +1,5 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { BackendServiceService } from "../../services/backend-service.service";
-import { Router } from "@angular/router";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
@@ -11,45 +10,43 @@ import { ActivatedRoute } from "@angular/router";
 export class UserPostsComponent implements OnInit {
   id: any;
   posts: any;
-  filteredPosts: any = [];
+  loggedInUserDetails: any = [];
   edit: boolean = true;
+  errorMsg: any;
 
   constructor(
-    private router: Router,
     public backendService: BackendServiceService,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
     this.id = this.route.snapshot.params["id"];
-    console.log(this.id);
+    this.loggedInUserDetails.push(this.backendService.getLoggedInUser(this.id));
     this.getPosts(this.id);
   }
   getPosts(id) {
-    this.backendService.getPosts().subscribe(
+    this.backendService.getPosts(id).subscribe(
       (data) => {
         this.posts = data;
-        this.filterPosts(id);
       },
       (error) => {
-        console.log("DBG Error ", error);
+        this.errorMsg = error;
       }
     );
   }
-  filterPosts(id) {
-    console.log(this.posts);
-    for (let i in this.posts) {
-      if (id == this.posts[i].userId) {
-        console.log(this.posts[i]);
-        this.filteredPosts.push(this.posts[i]);
-      }
-    }
-  }
-  editPosts(body) {
-    console.log(body);
+  editButton() {
     this.edit = false;
   }
-  savePosts(id) {
+  saveButton(item) {
     this.edit = true;
+    let id = item.id;
+    this.backendService.editPosts(id, item).subscribe(
+      (data) => {
+        item.body = data["item"].body;
+      },
+      (error) => {
+        this.errorMsg = error;
+      }
+    );
   }
 }

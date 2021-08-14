@@ -1,13 +1,20 @@
 <div class="card col-md-12">
   <div class="card-body">
-    <h1 style="text-align: center">Posts</h1>
-
     <div class="row" style="text-align: left">
-      <div class="card col-md-12" *ngFor="let items of filteredPosts">
+      <div class="card col-md-12" *ngFor="let items of loggedInUserDetails">
+        <h4>Username : {{ items.username }}</h4>
+        <h4>Name : {{ items.name }}</h4>
+        <h3>{{ this.errorMsg }}</h3>
+      </div>
+    </div>
+    <h1 style="text-align: center">Posts</h1>
+    <div class="row" style="text-align: left">
+      <div class="card col-md-12" *ngFor="let items of posts">
         <h3>{{ items.title }}</h3>
-        <textarea [(disabled)]="edit">{{ items.body }}</textarea>
-        <a (click)="editPosts(items.body)">edit</a>
-        <a (click)="savePosts(items.body)">save</a>
+        <input type="text" *ngIf="!edit" [(ngModel)]="items.body" />
+        <p *ngIf="edit">{{ items.body }}</p>
+        <a (click)="editButton()">edit</a>
+        <a (click)="saveButton(items)">save</a>
       </div>
     </div>
   </div>

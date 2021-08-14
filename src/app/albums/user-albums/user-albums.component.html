@@ -1,18 +1,33 @@
 <div class="card col-md-12">
   <div class="card-body">
+    <div class="row" style="text-align: left">
+      <div class="card col-md-12" *ngFor="let items of loggedInUserDetails">
+        <h4>Username : {{ items.username }}</h4>
+        <h4>Name : {{ items.name }}</h4>
+        <h3>{{ this.errorMsg }}</h3>
+      </div>
+    </div>
     <h1 style="text-align: center">Albums</h1>
 
     <div class="row" style="text-align: left">
-      <div class="card col-md-12" *ngFor="let items of filteredAlbums">
+      <div
+        class="card col-md-12"
+        *ngFor="
+          let items of albumImages
+            | paginate: { itemsPerPage: 10, currentPage: p }
+        "
+      >
+        <h6>Title : {{ items.title }}</h6>
         <img
-          src="https://via.placeholder.com/150/92c952"
+          [src]="items.thumbnailUrl"
           class="img-thumbnail"
           alt="Cinque Terre"
           height="5%"
           width="5%"
+          (click)="clickThumbnail(items)"
         />
-        <h3>{{ items.title }}</h3>
       </div>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </div>
   </div>
 </div>

@@ -1,12 +1,13 @@
 <div class="card col-md-12">
   <div class="card-body">
     <h1 style="text-align: center">Users</h1>
+    <h3>{{ errorMsg }}</h3>
 
     <div class="row" style="text-align: left">
       <div class="card col-md-12" *ngFor="let items of users">
         <h2>
           <mat-nav-list>
-            <a mat-list-item>{{ items.username }}</a>
+            <h4 mat-list-item>{{ items.username }}</h4>
             <button
               (click)="filter(items.id)"
               mat-raised-button

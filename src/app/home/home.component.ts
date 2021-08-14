@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { BackendServiceService } from "../services/backend-service.service";
 import { Router } from "@angular/router";
 
@@ -8,14 +8,13 @@ import { Router } from "@angular/router";
   styleUrls: ["./home.component.css"],
 })
 export class HomeComponent implements OnInit {
-  @Input() text: string;
-  @Output() userDetails = new EventEmitter();
   constructor(
     private router: Router,
     public backendService: BackendServiceService
   ) {}
 
   users: any;
+  errorMsg: any;
 
   ngOnInit() {
     this.getUsers();
@@ -23,11 +22,10 @@ export class HomeComponent implements OnInit {
   getUsers() {
     this.backendService.getUsers().subscribe(
       (data) => {
-        console.log("DBG: Respone", data);
         this.users = data;
       },
       (error) => {
-        console.log("DBG Error ", error);
+        this.errorMsg = error;
       }
     );
   }

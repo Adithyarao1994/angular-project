@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { BackendServiceService } from "../../services/backend-service.service";
-import { Router } from "@angular/router";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
@@ -11,9 +10,13 @@ import { ActivatedRoute } from "@angular/router";
 export class UserAlbumsComponent implements OnInit {
   id: any;
   albums: any;
+  loggedInUserDetails: any = [];
   filteredAlbums: any = [];
+  albumImages: any = [];
+  p: number = 1;
+  errorMsg: any;
+
   constructor(
-    private router: Router,
     public backendService: BackendServiceService,
     private route: ActivatedRoute
   ) {}
@@ -21,27 +24,18 @@ export class UserAlbumsComponent implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.params["id"];
     console.log(this.id);
-    this.getAlbums(this.id);
+    this.loggedInUserDetails.push(this.backendService.getLoggedInUser(this.id));
+    this.getImages(this.id);
   }
-  getAlbums(id) {
-    this.backendService.getAlbums().subscribe(
+  getImages(id) {
+    this.backendService.getAlbumImages(this.id).subscribe(
       (data) => {
-        this.albums = data;
-        this.filterAlbums(id);
+        this.albumImages = data;
       },
       (error) => {
-        console.log("DBG Error ", error);
+        this.errorMsg = error;
       }
     );
   }
-  filterAlbums(id) {
-    console.log(this.albums);
-    for (let i in this.albums) {
-      if (id == this.albums[i].userId) {
-        console.log(this.albums[i]);
-        this.filteredAlbums.push(this.albums[i]);
-        console.log(this.filteredAlbums);
-      }
-    }
-  }
+  clickThumbnail(id) {}
 }
